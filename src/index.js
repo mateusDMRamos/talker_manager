@@ -15,8 +15,9 @@ app.get('/', (_request, response) => {
 
 app.get('/talker', async (_req, res) => {
   const path = './talker.json';
-  const talkers = await fs.readFile(path.resolve(join(__dirname, path), './talker.json'));
-  res.status(HTTP_OK_STATUS).json({ talkers });
+  const data = await fs.readFile(join(__dirname, path), 'utf-8');
+  const talkers = JSON.parse(data);
+  res.status(HTTP_OK_STATUS).json([...talkers]);
 });
 
 app.listen(PORT, () => {

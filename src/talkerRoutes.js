@@ -75,4 +75,15 @@ router.put('/:id',
     res.status(HTTP_OK_STATUS).json(editTalker);
 });
 
+router.delete('/:id',
+  tokenValidation,
+  async (req, res) => {
+    const id = Number(req.params.id);
+    const talkers = await getTakers();
+    const filteredTalkers = talkers.filter((talker) => talker.id !== id);
+    const path = './talker.json';
+    await fs.writeFile(join(__dirname, path), JSON.stringify(filteredTalkers), 'utf-8');
+    res.status(204).send();
+});
+
 module.exports = router;

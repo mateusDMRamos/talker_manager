@@ -35,7 +35,7 @@ const validatePassword = (password) => {
     const passwordMessage = 'O campo "password" é obrigatório';
     return { validatedPassword: false, passwordMessage };
   }
-  if (!password.length < 6) {
+  if (password.length < 6) {
     const passwordMessage = 'O "password" deve ter pelo menos 6 caracteres';
     return { validatedPassword: false, passwordMessage };
   }

@@ -56,4 +56,23 @@ router.get('/:id', async (req, res) => {
   res.status(HTTP_OK_STATUS).json(selectedTalker);
 });
 
+router.put('/:id',
+  tokenValidation,
+  nameValidation,
+  ageValidation,
+  talkValidation,
+  watchedAtValidation,
+  rateValidation, 
+  async (req, res) => {
+    const editTalker = { ...req.body };
+    const talkers = await getTakers();
+    const oldTalkerInfos = talkers.find((talker) => talker.name.includes(editTalker.name));
+    const filteredTalkers = talkers.filter((talker) => talker.name !== editTalker.name);
+    editTalker.id = oldTalkerInfos.id;
+    const newList = [...filteredTalkers, editTalker];
+    const path = './talker.json';
+    await fs.writeFile(join(__dirname, path), JSON.stringify(newList), 'utf-8');
+    res.status(HTTP_OK_STATUS).json(editTalker);
+});
+
 module.exports = router;

@@ -65,10 +65,10 @@ router.put('/:id',
   rateValidation, 
   async (req, res) => {
     const editTalker = { ...req.body };
+    const id = Number(req.params.id);
     const talkers = await getTakers();
-    const oldTalkerInfos = talkers.find((talker) => talker.name.includes(editTalker.name));
-    const filteredTalkers = talkers.filter((talker) => talker.name !== editTalker.name);
-    editTalker.id = oldTalkerInfos.id;
+    const filteredTalkers = talkers.filter((talker) => talker.id !== id);
+    editTalker.id = id;
     const newList = [...filteredTalkers, editTalker];
     const path = './talker.json';
     await fs.writeFile(join(__dirname, path), JSON.stringify(newList), 'utf-8');
